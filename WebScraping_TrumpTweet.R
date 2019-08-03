@@ -1,22 +1,16 @@
-#install packages you need to finish this homework. packages needed: "tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc"
+#install packages you need to run. Packages needed: "tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc"
 
 #packages installation may take 20~30 minutes
 
 Needed <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", 
             "cluster", "igraph", "fpc")
 install.packages(Needed, dependencies = TRUE)
-
 install.packages("Rcampdf", repos = "http://datacube.wu.ac.at/", type = "source")
 
-
-#Create a folder to store all homework input files. For exampes, C:/texts
-#Downloaded all the files from:https://drive.google.com/drive/folders/0B914dXn0AXvlaWhmVXdPclZrTjA
-#And save them in folder C:/texts
-
-cname <- file.path("C:/Isha/documents/Projects/Web Scraping - Trump Tweet/","texts")   
+#Create a folder to store all the text files.
+cname <- file.path("C:/documents/Trump-Tweet/","texts")   
 cname   
 dir(cname)
-
 
 ##########Start Analysis#################################
 #Load package "tm" and all the files you have downloaded
@@ -30,13 +24,10 @@ summary(docs)
 #for example, load the first document in corpus
 inspect(docs[1])
 
-
 #####Preprocessing####
 
 #Remove numbers, capitalization, common words, punctuation, and otherwise prepare your texts for analysis.
-
 docs <- tm_map(docs,removePunctuation) 
-
 
 for (j in seq(docs)) {
   docs[[j]] <- gsub("/", " ", docs[[j]])
@@ -46,13 +37,12 @@ for (j in seq(docs)) {
 }
 
 docs <- tm_map(docs, removeNumbers)  
-
 docs <- tm_map(docs, tolower)   
 docs <- tm_map(docs, PlainTextDocument)
 DocsCopy <- docs
-
 docs <- tm_map(docs, removeWords, stopwords("english"))   
 docs <- tm_map(docs, PlainTextDocument)
+
 #Removing particular words
 docs <- tm_map(docs, removeWords, c("syllogism", "tautology"))   
 
@@ -74,9 +64,7 @@ docs_stc <- tm_map(docs_stc, PlainTextDocument)
 writeLines(as.character(docs_stc[1]))
 
 docs <- tm_map(docs, stripWhitespace)
-
 docs <- tm_map(docs, PlainTextDocument)
-
 
 #####Stage your data##########
 #A document-term matrix or term-document matrix is a mathematical matrix that describes the frequency of terms that occur in a collection of documents. In a document-term matrix, rows correspond to documents in the collection and columns correspond to terms. 
